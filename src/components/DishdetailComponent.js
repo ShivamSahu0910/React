@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, CardImg, CardText, CardBody,CardTitle } from 'reactstrap';
-
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
     function RenderDish({selectDish}) {
 
@@ -21,37 +21,24 @@ import { Card, CardImg, CardText, CardBody,CardTitle } from 'reactstrap';
         }
     }
 
-    function RenderComments({selectDish}) {
+    function RenderComments({comments}) {
         
-        if (selectDish != null) {
-            
-            const coms = selectDish.comments.map((com) => {
-                
+        if (comments != null) {
                 return (
-                    <ul key={com.id} className='list-unstyled'>
-                        <li>
-                            {com.comment}
-                        </li>
-                        <li>
-                            -- {com.author}, { }
-                            {
-                                new Intl.DateTimeFormat('en-US', {
-                                    month: 'short', day: '2-digit', year: 'numeric' 
-                                }).format(new Date(com.date))
-                            }
-                        </li>
-                    </ul>
-                );
-            });
-            
-            return (
-                <div>
+                    <React.Fragment>
                     <h4>Comments</h4>
-                    {coms}
-                </div>
-            );
-
-
+                    <ul className='list-unstyled'>
+                        {comments.map((comment) => {
+                            return (
+                                <li key={comment.id}>
+                                    <p>{comment.comment}</p>
+                                    <p>-- {comment.author} , {new Intl.DateTimeFormat('en-US', {month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(comment.date))}</p>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                    </React.Fragment>
+                );
         } else {
             return (
                 <div></div>
@@ -62,14 +49,24 @@ import { Card, CardImg, CardText, CardBody,CardTitle } from 'reactstrap';
     const DishDetail = (props) => {
         return(
             <div className= "container">
-            <div className='row'>
-                <div className='col-12 col-md-5 m-1'>
-                    <RenderDish selectDish={props.dish} />
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>{props.dish.name}</h3>
+                        <hr />
+                    </div>
                 </div>
-                <div className='col-12 col-md-5 m-1'>
-                    <RenderComments selectDish={props.dish} />
+                <div className='row'>
+                    <div className='col-12 col-md-5 m-1'>
+                        <RenderDish selectDish={props.dish} />
+                    </div>
+                    <div className='col-12 col-md-5 m-1'>
+                        <RenderComments comments={props.comments} />
+                    </div>
                 </div>
-            </div>
             </div>
         );
     }

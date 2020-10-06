@@ -21,7 +21,7 @@ class Main extends Component{
         promotions: PROMOTIONS,
         leaders: LEADERS    
     };
-   }
+  }
 
 render(){
 
@@ -34,12 +34,22 @@ render(){
       />
     );
   }
+
+  const DishWithId = ({match}) => {
+    return(
+      <DishDetail dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId,10))[0]} 
+        comments={this.state.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId,10))} //Do not use [0] at the end of code as it sends only one comment related to dishId or simpy the dish we clicked on
+      />
+    );
+  }
+
     return (
       <div>
         <Header />
         <Switch>
           <Route path="/home" component={HomePage} />
           <Route exact path="/menu" component={() => <Menu dishes={this.state.dishes} />} />
+          <Route path="/menu/:dishId" component={DishWithId} />
           <Route exact path='/contactus' component={Contact} />
           <Redirect to="/home" />
         </Switch>
@@ -48,4 +58,5 @@ render(){
     );
   }
 }
+
 export default Main;
