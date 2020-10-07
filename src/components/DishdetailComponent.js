@@ -22,7 +22,6 @@ import { Link } from 'react-router-dom';
     }
 
     function RenderComments({comments}) {
-        
         if (comments != null) {
                 return (
                     <React.Fragment>
@@ -32,10 +31,10 @@ import { Link } from 'react-router-dom';
                             return (
                                 <li key={comment.id}>
                                     <p>{comment.comment}</p>
-                                    <p>-- {comment.author} , {new Intl.DateTimeFormat('en-US', {month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(comment.date))}</p>
+                                    <p>--{comment.author} , {new Intl.DateTimeFormat('en-US', {month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(comment.date))}</p>
                                 </li>
                             );
-                        })}
+                        })};
                     </ul>
                     </React.Fragment>
                 );
